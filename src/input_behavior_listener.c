@@ -28,10 +28,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #define ZMK_MOUSE_HID_NUM_BUTTONS 0x05
 #endif
 
-#include <math.h>
-#ifndef M_PI
-#define M_PI (3.14159265358979323846f)
-#endif
+#include "math.h"
 #include <zephyr/sys/util.h> // for CLAMP
 
 #define ONE_IF_DEV_OK(n)                                                                           \
@@ -391,8 +388,8 @@ static void input_behavior_handler(const struct input_behavior_listener_config *
         };                                                                                         \
         static struct input_behavior_listener_data data_##n = {                                    \
             .mouse = {                                                                             \
-                .sin = sinf((DT_INST_PROP(n, rotate_deg) * M_PI / 180.0f)),                        \
-                .cos = cosf((DT_INST_PROP(n, rotate_deg) * M_PI / 180.0f)),                        \
+                .sin = sin_from_deg(DT_INST_PROP(n, rotate_deg)),                                  \
+                .cos = cos_from_deg(DT_INST_PROP(n, rotate_deg)),                                  \
             },                                                                                     \
         };                                                                                         \
         void input_behavior_handler_##n(struct input_event *evt) {                                 \
